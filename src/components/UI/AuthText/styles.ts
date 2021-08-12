@@ -10,4 +10,5 @@ export const TextContent = styled.Text`
   color: ${colors.title};
   font-style: italic;
   font-family: "sans-serif";
+  margin-bottom: 30px;
 `;

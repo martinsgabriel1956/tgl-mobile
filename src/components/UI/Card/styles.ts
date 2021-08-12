@@ -5,7 +5,6 @@ export const Container = styled.View.attrs({
   shadowColor: colors.border,
   elevation: 3,
 })`
-  margin-top: 20px;
   background-color: #fff;
   width: 325px;
   height: 290px;
