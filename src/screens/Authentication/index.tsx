@@ -22,7 +22,7 @@ export function Authentication() {
       <Card>
         <Input placeholder="Email" keyboardType="email-address" autoCapitalize="none" />
         <PasswordInput />
-        <RectButton>
+        <RectButton onPress={() => navigation.navigate('ResetPassword')} >
           <ForgetPasswordText>I forget my password</ForgetPasswordText>
         </RectButton>
         <GreenButton>Log In</GreenButton>
