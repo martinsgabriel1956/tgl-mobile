@@ -7,7 +7,8 @@ export const Container = styled(RectButton)`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 22px;
+  margin-top: 24px;
+  margin-bottom: 24px;
 `;
 
 export const GreenButtonText = styled.Text`

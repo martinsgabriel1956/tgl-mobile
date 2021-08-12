@@ -7,7 +7,7 @@ export const Container = styled.View.attrs({
 })`
   background-color: #fff;
   width: 325px;
-  height: 290px;
+  height: auto;
   border-radius: 12px;
   border-width: .5px;
   border-color: ${colors.border};  
