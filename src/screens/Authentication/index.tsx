@@ -20,14 +20,20 @@ export function Authentication() {
       <Logo />
       <AuthText>Authentication</AuthText>
       <Card>
-        <Input placeholder="Email" keyboardType="email-address" autoCapitalize="none" />
+        <Input
+          placeholder="Email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
         <PasswordInput />
-        <RectButton onPress={() => navigation.navigate('ResetPassword')} >
+        <RectButton onPress={() => navigation.navigate("ResetPassword")}>
           <ForgetPasswordText>I forget my password</ForgetPasswordText>
         </RectButton>
-        <GreenButton>Log In</GreenButton>
+        <RectButton onPress={() => navigation.navigate("RecentGames")}>
+          <GreenButton>Log In</GreenButton>
+        </RectButton>
       </Card>
-      <SingUpButton onPress={() => navigation.navigate('Registration')} />
+      <SingUpButton onPress={() => navigation.navigate("Registration")} />
       <TextBy>Copyright 2021 Luby Software</TextBy>
     </Container>
   );

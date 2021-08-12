@@ -4,5 +4,6 @@ export default {
   text: '#868686',
   title: '#707070',
   border: '#DDDDDD',
-  inputText: '#9D9D9D'
+  inputText: '#9D9D9D',
+  headerBg: '#FEFEFE'
 }
