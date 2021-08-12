@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Text } from "react-native";
 
@@ -12,6 +13,8 @@ import { PasswordInput } from "../../components/UI/PasswordInput";
 import { Container, TextBy } from "./styles";
 
 export function Registration() {
+  const navigation  = useNavigation();
+
   return (
     <Container>
       <Logo />
@@ -30,7 +33,7 @@ export function Registration() {
         <PasswordInput />
         <GreenButton>Register</GreenButton>
       </Card>
-      <BackButton />
+      <BackButton onPress={() => navigation.goBack()}  />
       <TextBy>Copyright 2021 Luby Software</TextBy>
     </Container>
   );

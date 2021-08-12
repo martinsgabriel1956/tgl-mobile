@@ -1,6 +1,6 @@
 import React from "react";
 import { RectButton } from "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import { AuthText } from "../../components/UI/AuthText";
 import { Card } from "../../components/UI/Card";
@@ -11,9 +11,10 @@ import { PasswordInput } from "../../components/UI/PasswordInput";
 import { SingUpButton } from "../../components/UI/SingUpButton";
 
 import { Container, TextBy, ForgetPasswordText } from "./styles";
-import { Text } from "react-native";
 
 export function Authentication() {
+  const navigation = useNavigation();
+
   return (
     <Container>
       <Logo />
@@ -26,7 +27,7 @@ export function Authentication() {
         </RectButton>
         <GreenButton>Log In</GreenButton>
       </Card>
-      <SingUpButton />
+      <SingUpButton onPress={() => navigation.navigate('Registration')} />
       <TextBy>Copyright 2021 Luby Software</TextBy>
     </Container>
   );
