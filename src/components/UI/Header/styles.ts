@@ -9,7 +9,7 @@ export const Container = styled.View`
   top: 0;
   align-items: center;
   padding: 32px 40px;
-  top: -362px;
+  top: -300px;
 `;
 
 export const Logo = styled.View`
@@ -25,9 +25,9 @@ export const LogoText = styled.Text`
 `;
 
 export const LogoBar = styled.View`
-  width: 80px;
+  width: 86px;
   height: 8px;
-  left: -6px;
+  left: -8px;
   border-radius: 4px;
   background-color: ${colors.primary};
 `;

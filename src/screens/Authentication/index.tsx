@@ -29,7 +29,7 @@ export function Authentication() {
         <RectButton onPress={() => navigation.navigate("ResetPassword")}>
           <ForgetPasswordText>I forget my password</ForgetPasswordText>
         </RectButton>
-        <RectButton onPress={() => navigation.navigate("RecentGames")}>
+        <RectButton onPress={() => navigation.navigate("TGL")}>
           <GreenButton>Log In</GreenButton>
         </RectButton>
       </Card>

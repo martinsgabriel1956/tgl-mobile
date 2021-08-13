@@ -5,6 +5,7 @@ import { Authentication } from "../screens/Authentication";
 import { Registration } from "../screens/Registration";
 import { ResetPassword } from "../screens/ResetPassword";
 import { RecentGames } from "../screens/RecentGames";
+import { BetTabRoutes } from "./BetTabRoutes";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -15,6 +16,7 @@ export function AuthRoutes() {
       <Screen name="Registration" component={Registration}/>
       <Screen name="ResetPassword" component={ResetPassword}/>
       <Screen name="RecentGames" component={RecentGames}/>
+      <Screen name="TGL" component={BetTabRoutes}/>
     </Navigator>
   );
 }
