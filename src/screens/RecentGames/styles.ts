@@ -1,7 +1,39 @@
-import styled from 'styled-components/native';
+import { ScrollView, View } from "react-native";
+import styled from "styled-components/native";
+import colors from "../../utils/colors";
 
 export const Container = styled.View`
   justify-content: center;
   height: 100%;
-  background-color: #F7F7F7;
+  background-color: #f7f7f7;
+`;
+
+export const RecentGamesText = styled.Text`
+  font-size: 24px;
+  font-weight: bold;
+  font-style: italic;
+  color: ${colors.title};
+  text-transform: uppercase;
+  margin-left: 22px;
+  margin-top: 8px;
+`;
+
+export const TypeGameContainer = styled(ScrollView)`
+  margin-left: 10px;
+  height: 50px;
+`;
+
+export const Filters = styled.Text`
+  margin-top: 10px;
+  margin-bottom: 6px;
+  margin-left: 22px;
+  font-style: italic;
+  color: ${colors.text};
+  font-size: 16px;
+`
+
+export const BetsContainer = styled(ScrollView)`
+  margin-left: 16px;
+  margin-bottom: 32px;
+  margin-top: 20px;
 `;
