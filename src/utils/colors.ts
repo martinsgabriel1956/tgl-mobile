@@ -5,5 +5,6 @@ export default {
   title: '#707070',
   border: '#DDDDDD',
   inputText: '#9D9D9D',
-  headerBg: '#FEFEFE'
+  headerBg: '#FEFEFE',
+  buttonBg: '#ADC0C4'
 }

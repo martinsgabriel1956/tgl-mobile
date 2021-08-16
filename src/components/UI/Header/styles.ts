@@ -6,10 +6,10 @@ export const Container = styled.View`
   background-color: ${colors.headerBg};
   flex-direction: row;
   justify-content: space-between;
-  top: 0;
   align-items: center;
-  padding: 32px 40px;
-  top: -300px;
+  padding: 36px 26px 24px;
+  margin-top: 24px;
+  top: -20px;
 `;
 
 export const Logo = styled.View`
@@ -21,7 +21,7 @@ export const LogoText = styled.Text`
   font-weight: bold;
   color: ${colors.title};
   font-style: italic;
-
+  margin-top: 8px;
 `;
 
 export const LogoBar = styled.View`
