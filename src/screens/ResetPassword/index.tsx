@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { Container, TextBy } from "./styles";
@@ -10,9 +10,43 @@ import { Input } from "../../components/UI/Input";
 import { GreenButton } from "../../components/UI/GreenButton";
 import { BackButton } from "../../components/UI/BackButton";
 import { SingUpButton } from "../../components/UI/SingUpButton";
+import Toast from "react-native-toast-message";
+import axios from "axios";
+import { RectButton } from "react-native-gesture-handler";
 
 export function ResetPassword() {
   const navigation = useNavigation();
+
+  const [email, setEmail] = useState<string>();
+
+  function handleResetPassword() {
+    if (!email)
+      Toast.show({
+        type: "error",
+        text1: "Hey",
+        text2: "Please type a valid email",
+      });
+
+    axios
+      .post("/forgot_password", {
+        email,
+      })
+      .then(() =>
+        Toast.show({
+          type: "success",
+          text1: "Hey",
+          text2: "We have sent you an email with instructions",
+        })
+      )
+      .catch(() =>
+        Toast.show({
+          type: "error",
+          text1: "Hey",
+          text2: "Email already exists!",
+        })
+      );
+  }
+
   return (
     <Container>
       <Logo />
@@ -22,11 +56,14 @@ export function ResetPassword() {
           placeholder="Email"
           keyboardType="email-address"
           autoCapitalize="none"
+          onChangeText={setEmail}
         />
-        <GreenButton>Send link</GreenButton>
+        <RectButton onPress={handleResetPassword}>
+          <GreenButton>Send link</GreenButton>
+        </RectButton>
       </Card>
       <BackButton onPress={() => navigation.goBack()} />
-      <SingUpButton onPress={() => navigation.navigate('Registration')} />
+      <SingUpButton onPress={() => navigation.navigate("Registration")} />
       <TextBy>Copyright 2021 Luby Software</TextBy>
     </Container>
   );

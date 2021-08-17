@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 import { Container, AuthInput } from "./styles";
-import { RectButton } from "react-native-gesture-handler";
+import { RectButton} from "react-native-gesture-handler";
 import colors from "../../../utils/colors";
+import { TextInputProps } from "react-native";
 
-export function PasswordInput() {
+export function PasswordInput(props: TextInputProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -18,6 +19,7 @@ export function PasswordInput() {
         autoCapitalize="none"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        onChangeText={props.onChangeText}
       />
       <RectButton>
         <Ionicons name="eye-outline" size={24} onPress={() => {

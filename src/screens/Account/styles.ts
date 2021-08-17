@@ -68,3 +68,8 @@ export const ProfileFieldIcon = styled.View`
   border-top-left-radius: 14px;
   border-bottom-left-radius: 14px;
 `;
+
+export const IsEditableContainer = styled.View`
+  justify-content: center;
+  flex-direction: row;
+`;

@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Text, View } from "react-native";
 import { Feather, AntDesign, MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
-import avatar from "../../assets/avatar.png";
+import { api } from "../../services/api";
 
 import { Header } from "../../components/UI/Header";
+import { ProfileField } from "../../components/UI/ProfileField";
+
+import avatar from "../../assets/avatar.png";
 
 import {
   Container,
@@ -14,41 +20,131 @@ import {
   InfoContainer,
   InfoText,
   ProfileFieldIcon,
+  IsEditableContainer
 } from "./styles";
-import { ProfileField } from "../../components/UI/ProfileField";
-import { View } from "react-native";
 
 export function Account() {
+  const [inputName, setInputName] = useState<string>();
+  const [inputEmail, setInputEmail] = useState<string>();
+  const [inputPassword, setInputPassword] = useState<string>();
+
+  const [profileName, setProfileName] = useState<string>();
+  const [profileEmail, setProfileEmail] = useState<string>();
+
+  const [isEditable, setIsEditable] = useState(false);
+  const [token, setToken] = useState<string>();
+
+  async function getDate() {
+    const user = await AsyncStorage.getItem("token");
+
+    if (user) setToken(user);
+  }
+
+  function handleEdit() {
+    setIsEditable(true);
+  }
+
+  function handleCancelEdit() {
+    setIsEditable(false);
+  }
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  function handleUpdateData() {
+    const isInvalid = !inputEmail || !inputName || !inputPassword;
+
+    if (isInvalid)
+      Toast.show({
+        type: "error",
+        text1: "Hey",
+        text2: "Please fill all the fields",
+      });
+
+    api
+      .post(
+        "/users",
+        {
+          name: inputName,
+          email: inputEmail,
+          password: inputPassword,
+        },
+        config
+      )
+      .then(() =>
+        Toast.show({
+          type: "success",
+          text1: "Hey",
+          text2: "You have successfully updated your profile",
+        })
+      )
+      .catch((err) =>
+        Toast.show({
+          type: "error",
+          text1: "Hey",
+          text2: "Something went wrong, please check the fields",
+        })
+      );
+  }
+
+  useEffect(() => {
+    getDate();
+
+    api.get("/user", config).then((res) => {
+      setProfileName(res.data.name);
+      setProfileEmail(res.data.email);
+    });
+  }, [handleUpdateData]);
+
   return (
     <Container>
       <Header />
       <AvatarContainer>
         <Avatar source={avatar} />
-        <EditIconContainer>
-          <Feather name="edit" size={32} color="white" />
-        </EditIconContainer>
+
+        {!isEditable ? (
+         <View>
+            <EditIconContainer onPress={handleEdit}>
+              <Feather name="edit" size={32} color="white" />
+            </EditIconContainer>
+         </View>
+        ) : (
+          <IsEditableContainer>
+            <EditIconContainer onPress={handleCancelEdit} style={{
+              backgroundColor: "red"
+            }}>
+              <AntDesign name="close" size={32} color="white" />
+            </EditIconContainer>
+            <EditIconContainer onPress={handleUpdateData}>
+              <AntDesign name="check" size={32} color="white" />
+            </EditIconContainer>
+          </IsEditableContainer>
+        )}
       </AvatarContainer>
-      <NameText>Gabriel Martins</NameText>
+      <NameText>{profileName}</NameText>
       <InfoContainer>
         <InfoText>Info:</InfoText>
-        <View>
-          <ProfileFieldIcon>
-            <AntDesign name="user" size={28} color="white" />
-          </ProfileFieldIcon>
-          <ProfileField>Gabriel Martins</ProfileField>
-        </View>
-        <View>
-          <ProfileFieldIcon>
-            <MaterialIcons name="alternate-email" size={28} color="white" />
-          </ProfileFieldIcon>
-          <ProfileField>martins@adm.com</ProfileField>
-        </View>
-        <View>
-          <ProfileFieldIcon>
-            <AntDesign name="key" size={28} color="white" />
-          </ProfileFieldIcon>
-          <ProfileField>1234</ProfileField>
-        </View>
+        {isEditable ? (
+          <Text></Text>
+        ) : (
+          <>
+            <View>
+              <ProfileFieldIcon>
+                <AntDesign name="user" size={28} color="white" />
+              </ProfileFieldIcon>
+              <ProfileField>{profileName}</ProfileField>
+            </View>
+            <View>
+              <ProfileFieldIcon>
+                <MaterialIcons name="alternate-email" size={28} color="white" />
+              </ProfileFieldIcon>
+              <ProfileField>{profileEmail}</ProfileField>
+            </View>
+          </>
+        )}
       </InfoContainer>
     </Container>
   );
