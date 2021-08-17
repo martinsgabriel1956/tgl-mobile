@@ -33,6 +33,8 @@ export const Filters = styled.Text`
 `
 
 export const BetsContainer = styled(ScrollView)`
+  position: absolute;
+  top: 300px;
   margin-left: 16px;
   margin-bottom: 32px;
   margin-top: 20px;

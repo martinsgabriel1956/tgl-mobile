@@ -25,33 +25,14 @@ export function RecentGames() {
         <Game>Lotofácil</Game>
       </TypeGameContainer>
       <BetsContainer>
-        <Bet
-          numbers={'05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 '}
-          type={'lotomania'}
-          color={'#000'}
-          date={'2021/08/12'}
-          price={25}
-        />
-        <Bet
-          numbers={'05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 '}
-          type={'lotomania'}
-          color={'#000'}
-          date={'2021/08/12'}
-          price={25}
-        />
+       
         <Bet
           numbers={'05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 18 '}
           type={'lotomania'}
           color={'#000'}
           date={'2021/08/12'}
           price={25}
-        />
-        <Bet
-          numbers={'05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 18 '}
-          type={'lotomania'}
-          color={'#000'}
-          date={'2021/08/12'}
-          price={25}
+          inHomePage={true}
         />
       </BetsContainer>
     </Container>

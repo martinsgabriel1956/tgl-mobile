@@ -39,7 +39,7 @@ export function BetTabRoutes() {
       }}
     >
       <Tabs.Screen
-        name="Game"
+        name="Games"
         component={RecentGames}
         options={{
           tabBarLabel: "Home",

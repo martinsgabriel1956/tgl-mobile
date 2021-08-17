@@ -18,13 +18,21 @@ export const BetBar = styled.View`
 
 export const Numbers = styled.Text`
   margin-left: 16px;
+  margin-right: 16px;
   font-size: 16px;
   color: ${colors.title};
   font-weight: bold;
   font-style: italic;
+  
 `;
 
-export const BetInfo = styled.Text`
+export const BetInfo = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const BetInfoText = styled.Text`
   margin-left: 16px;
   margin-top: 8px;
   margin-bottom: 8px;
