@@ -1,13 +1,16 @@
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { RectButton } from "react-native-gesture-handler";
 import styled from "styled-components/native";
-import colors from "../../../utils/colors";
 
-export const Container = styled(TouchableOpacity)`
+type ButtonProps = {
+  color: string;
+  background: string;
+};
+
+export const Container = styled(RectButton)`
   margin-top: 12px;
   margin-left: 12px;
-  background-color: ${colors.headerBg};
-  `;
 
+`;
 
 export const GameText = styled.Text`
   border-width: 2px;

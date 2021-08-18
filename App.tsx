@@ -1,14 +1,17 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { StatusBar } from "expo-status-bar";
 
 import { Routes } from "./src/Routes";
-import { RecentGames } from "./src/screens/RecentGames";
+import { store } from "./src/store";
 
 export default function App() {
   return (
     <>
       <StatusBar style="auto" />
-      <Routes />
+      <Provider store={store}>
+        <Routes />
+      </Provider>
     </>
   );
 }

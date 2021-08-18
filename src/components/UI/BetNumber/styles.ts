@@ -4,7 +4,7 @@ import colors from '../../../utils/colors';
 
 export const Container = styled(RectButton)`
   margin-top: 8px;
-  background-color: ${colors.buttonBg};
+  background-color: ${props => props.color};
   width: 60px;
   height: 60px;
   border-radius: 30px;
@@ -17,7 +17,7 @@ export const BetNumberText = styled.Text`
   font-size: 16px;
   font-weight: bold;
   color: ${colors.headerBg};
-  margin-top: 20px;
+  margin-top: 18px;
 
 `;
 

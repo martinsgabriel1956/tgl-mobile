@@ -1,7 +1,5 @@
 import React, { ReactNode } from 'react';
 
-import { Text } from 'react-native';
-
 import { Container, ProfileFieldText } from './styles';
 
 interface ProfileFieldProps {

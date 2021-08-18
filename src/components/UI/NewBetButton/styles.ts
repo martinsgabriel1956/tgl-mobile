@@ -6,7 +6,7 @@ export const Container = styled.View`
   width: 120px;
   height: 120px;
   position: absolute;
-  top: -60px;
+  top: -56px;
   border-radius: 60px;
   background-color: ${colors.headerBg};
   elevation: 2;

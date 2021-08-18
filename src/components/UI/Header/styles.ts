@@ -31,3 +31,9 @@ export const LogoBar = styled.View`
   border-radius: 4px;
   background-color: ${colors.primary};
 `;
+
+export const HeaderButtonsContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;

@@ -1,18 +1,18 @@
 import React, { ReactNode } from 'react';
+import { TextInputProps } from 'react-native';
 
-import { Text } from 'react-native';
-
-import { Container } from './styles';
+import { Container, ProfileFieldInput } from './styles';
 
 interface AccountInputProps {
   children: ReactNode;
 }
 
-export function AccountInput({ children }: AccountInputProps) {
+export function AccountInput(props: TextInputProps | any) {
   return (
     <Container>
-      <Text>AccountInput</Text>
-      {children}
+      <ProfileFieldInput
+        {...props}
+      />
     </Container>
   );
 };

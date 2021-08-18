@@ -20,8 +20,9 @@ import {
   InfoContainer,
   InfoText,
   ProfileFieldIcon,
-  IsEditableContainer
+  IsEditableContainer,
 } from "./styles";
+import { AccountInput } from "../../components/UI/AccountInput";
 
 export function Account() {
   const [inputName, setInputName] = useState<string>();
@@ -106,16 +107,19 @@ export function Account() {
         <Avatar source={avatar} />
 
         {!isEditable ? (
-         <View>
+          <View>
             <EditIconContainer onPress={handleEdit}>
               <Feather name="edit" size={32} color="white" />
             </EditIconContainer>
-         </View>
+          </View>
         ) : (
           <IsEditableContainer>
-            <EditIconContainer onPress={handleCancelEdit} style={{
-              backgroundColor: "red"
-            }}>
+            <EditIconContainer
+              onPress={handleCancelEdit}
+              style={{
+                backgroundColor: "red",
+              }}
+            >
               <AntDesign name="close" size={32} color="white" />
             </EditIconContainer>
             <EditIconContainer onPress={handleUpdateData}>
@@ -128,7 +132,28 @@ export function Account() {
       <InfoContainer>
         <InfoText>Info:</InfoText>
         {isEditable ? (
-          <Text></Text>
+          <>
+            <View>
+              <ProfileFieldIcon>
+                <AntDesign name="user" size={28} color="white" />
+              </ProfileFieldIcon>
+              <AccountInput
+                placeholder="Name" 
+                keyboardType="default"
+                autoCapitalize="words"
+              />
+            </View>
+            <View>
+              <ProfileFieldIcon>
+                <MaterialIcons name="alternate-email" size={28} color="white" />
+              </ProfileFieldIcon>
+              <AccountInput
+                placeholder="Email"
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+          </>
         ) : (
           <>
             <View>

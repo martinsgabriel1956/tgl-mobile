@@ -1,5 +1,8 @@
 import { ScrollView, View } from "react-native";
+import * as Animatable from "react-native-animatable";
+import { RectButton } from "react-native-gesture-handler";
 import styled from "styled-components/native";
+
 import colors from "../../utils/colors";
 
 export const Container = styled.View`
@@ -31,17 +34,35 @@ export const ChooseGame = styled.Text`
 
 export const TypeGameContainer = styled(ScrollView)`
   margin-left: 10px;
-  height: 26%;
+  width: 100%;
+  height: 20%;
 `;
 export const DescriptionContainer = styled(View)`
+  top: ${(props) => (props.top ? -54 : -240)}px;
+  margin-top: 24px;
   margin-left: 24px;
-  margin-bottom: 32px;
+  margin-bottom: -60px;
+  position: relative;
+`;
+
+export const BarContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  left: -20px;
+`;
+
+export const Bar = styled.View`
+  height: 8px;
+  width: 40px;
+  background-color: #c1c1c1;
+  border-radius: 8px;
+  margin-top: 18px;
 `;
 
 export const FillYourBetText = styled.Text`
   font-weight: bold;
   font-style: italic;
-  top: 0;
   font-size: 18px;
   color: ${colors.title};
 `;
@@ -52,11 +73,54 @@ export const DescriptionText = styled.Text`
   font-size: 16px;
   font-style: italic;
   line-height: 24px;
+  margin-right: 8px;
 `;
 
 export const BetNumbersContainer = styled(ScrollView)`
-  height: 100%;
+  margin-top: 24px;
   margin-left: 22px;
   flex-wrap: nowrap;
+  margin-bottom: 24px;
 `;
 
+export const GameContainer = styled.View``;
+
+export const AnimationBetContainer = styled(Animatable.View)``;
+
+export const DescriptionAnimatedContainer = styled(Animatable.View)``;
+
+export const BetNumberSelectedContainer = styled(ScrollView)``;
+
+export const ButtonContainer = styled(Animatable.View)`
+  flex-direction: row;
+  margin-top: 20px;
+`;
+
+export const ActionButton = styled(RectButton)`
+  margin-right: 8px;
+`;
+
+export const AddToCartButton = styled(RectButton)`
+  flex-direction: row;
+  align-items: center;
+  background-color: ${colors.primary};
+  border-radius: 6px;
+`;
+
+export const ActionButtonText = styled.Text`
+  border-color: ${colors.primary};
+  border-width: 2px;
+  padding: 6px;
+  color: ${colors.primary};
+  font-weight: bold;
+  border-radius: 6px;
+`;
+
+export const AddToCartButtonText = styled.Text`
+  border-color: ${colors.primary};
+  border-width: 2px;
+  padding: 6px 8px;
+  color: ${colors.headerBg};
+  font-weight: bold;
+  border-radius: 6px;
+`;
