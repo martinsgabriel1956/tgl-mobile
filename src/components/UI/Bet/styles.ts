@@ -36,6 +36,7 @@ export const BetInfoText = styled.Text`
   margin-left: 16px;
   margin-top: 8px;
   margin-bottom: 8px;
+  margin-right: 18px;
   font-size: 14px;
   color: ${colors.text};
   font-style: italic;

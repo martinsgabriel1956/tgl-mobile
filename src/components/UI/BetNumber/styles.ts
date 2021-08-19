@@ -1,4 +1,4 @@
-import { RectButton, ScrollView } from 'react-native-gesture-handler';
+import { RectButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import colors from '../../../utils/colors';
 

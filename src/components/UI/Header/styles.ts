@@ -37,3 +37,19 @@ export const HeaderButtonsContainer = styled.View`
   align-items: center;
   justify-content: center;
 `;
+
+export const Badge = styled.View`
+  width: 22px;
+  height: 22px;
+  border-radius: 12px;
+  background-color: ${colors.primary};
+  align-items: center;
+  top: 18px;
+  left: -2px;
+
+`;
+export const BadgeText = styled.Text`
+  font-size: 14px;
+  font-weight: bold;
+  color: ${colors.headerBg};
+`;

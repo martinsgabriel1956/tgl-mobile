@@ -44,7 +44,7 @@ export function Bet({
             {date} - <Price>(R${price.toFixed(2).replace(".", ",")})</Price>
           </BetInfoText>
           {inHomePage === false && (
-            <RectButton>
+            <RectButton onPress={deleteRow}>
               <EvilIcons name="trash" size={32} color={colors.text} style={{
                 marginRight: 26,
               }} />

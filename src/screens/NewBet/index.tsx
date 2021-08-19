@@ -4,13 +4,18 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import * as Animatable from "react-native-animatable";
 
+import { RootState } from "../../interfaces/RootState";
+
 import { BetNumber } from "../../components/UI/BetNumber";
 import { Game } from "../../components/UI/Game";
 import { Header } from "../../components/UI/Header";
 import { ItemTypes } from "../../interfaces/ItemTypes";
+import { Cart } from "../../components/UI/Cart";
 
 import { api } from "../../services/api";
+
 import { newBetActions } from "../../store/NewBet";
+import { cartActions } from "../../store/Cart";
 
 import {
   Container,
@@ -33,20 +38,10 @@ import {
   ActionButtonText,
   AddToCartButtonText,
 } from "./styles";
-import { cartActions } from "../../store/Cart";
+import { Modal } from "../../components/UI/Modal";
+import colors from "../../utils/colors";
 
 let cartArr: any[] = [];
-
-type RootState = {
-  newBet: {
-    items: number[];
-    color: string;
-  };
-  cart: {
-    cartItem: {}[];
-    displayCart: boolean;
-  };
-};
 
 export function NewBet() {
   const dispatch = useDispatch();
@@ -54,6 +49,15 @@ export function NewBet() {
   let gameNumber: number[] = useSelector(
     (state: RootState) => state.newBet.items
   );
+  let cartItem: {}[] = useSelector((state: RootState) => state.cart.cartItem);
+  let showCart: boolean = useSelector(
+    (state: RootState) => state.cart.showCart
+  );
+
+  const [modalColor, setModalColor] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
+  const [message, setmessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
   const [items, setItems] = useState([]);
   const [type, setType] = useState("");
@@ -68,6 +72,14 @@ export function NewBet() {
   useEffect(() => {
     api.get("/games").then((res) => setItems(res.data));
   }, []);
+
+  function displayAlert(message: string, title: string, color: string) {
+    setModalTitle(title);
+    setModalColor(color);
+    setmessage(message);
+
+    setShowAlert(true);
+  }
 
   function clearGame() {
     return dispatch(newBetActions.clearGame());
@@ -87,15 +99,23 @@ export function NewBet() {
     type: string,
     color: string,
     maxNumber: number,
-    gameId: number,
+    gameId: number
   ) {
     if (numbersGame.length !== maxNumber) {
-      
-      return;
+      return displayAlert(
+        `Choose more ${
+          maxNumber - gameNumber.length
+        } numbers to complete your bet`,
+        "Error: ",
+        `${colors.primary}`
+      );
     }
 
-    dispatch(cartActions.receiveGame({ numbersGame, price, type, color, gameId }));
+    dispatch(
+      cartActions.receiveGame({ numbersGame, price, type, color, gameId })
+    );
     clearGame();
+    dispatch(cartActions.showCart());
   }
 
   function handleGameSelect(index: number) {
@@ -139,12 +159,19 @@ export function NewBet() {
     return cartArr;
   }
 
+  function hideAlert() {
+    setShowAlert(false);
+  }
+
   return (
-    <Container>
-      <>
-        <Header cartActive={gameNumber.length >= 1 && true} />
+    <>
+      <Container showCart={showCart}>
+        <Header
+          cartActive={gameNumber.length >= 1 || (cartItem.length >= 1 && true)}
+        />
         <TypeGameText>New Bet For {type}</TypeGameText>
         <ChooseGame>Choose a game</ChooseGame>
+
         <TypeGameContainer
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -156,9 +183,9 @@ export function NewBet() {
                 <Game
                   key={index}
                   onPress={() => handleGameSelect(index)}
+                  color={type !== item.type ? item.color : "white"}
                   background={type === item.type ? item.color : "transparent"}
-                  color={price !== item.price ? item.color : "transparent"}
-                  title={`${item.type}`}
+                  border={item.color}
                 >
                   {item.type}
                 </Game>
@@ -167,7 +194,7 @@ export function NewBet() {
         </TypeGameContainer>
         <DescriptionContainer top={showBetNumbers}>
           {showBetNumbers && (
-            <>
+            <Animatable.View animation="bounceInLeft" duration={800}>
               {gameNumber && gameNumber.length <= 0 && (
                 <DescriptionAnimatedContainer
                   animation="fadeInDown"
@@ -178,36 +205,25 @@ export function NewBet() {
                 </DescriptionAnimatedContainer>
               )}
 
-              <Animatable.View
-                animation="fadeIn"
-                duration={800}
+              <BetNumberSelectedContainer
+                horizontal
+                showsHorizontalScrollIndicator={false}
               >
-                <BetNumberSelectedContainer
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                >
-                  {gameNumber &&
-                    gameNumber.length >= 1 &&
-                    gameNumber.map((value: number) => (
-                      <BetNumber
-                        key={value }
-                        onPress={() =>
-                          handleSelectButton(
-                            value,
-                            maxNumber,
-                            price,
-                            type,
-                            color
-                          )
-                        }
-                        color={color}
-                      >
-                        {value < 10 ? `0${value}` : value}
-                        <AntDesign name="close" size={12} color="white" />
-                      </BetNumber>
-                    ))}
-                </BetNumberSelectedContainer>
-              </Animatable.View>
+                {gameNumber &&
+                  gameNumber.length >= 1 &&
+                  gameNumber.map((value: number) => (
+                    <BetNumber
+                      key={value}
+                      onPress={() =>
+                        handleSelectButton(value, maxNumber, price, type, color)
+                      }
+                      color={color}
+                    >
+                      {value < 10 ? `0${value}` : value}
+                      <AntDesign name="close" size={12} color="white" />
+                    </BetNumber>
+                  ))}
+              </BetNumberSelectedContainer>
               {gameNumber && gameNumber.length >= 1 && (
                 <ButtonContainer animation="fadeInUp" duration={800}>
                   <ActionButton onPress={() => completeGame(maxNumber, range)}>
@@ -216,7 +232,18 @@ export function NewBet() {
                   <ActionButton onPress={clearGame}>
                     <ActionButtonText>Clear Game</ActionButtonText>
                   </ActionButton>
-                  <AddToCartButton onPress={() => onAddToCart(gameNumber, price, type, color, maxNumber, gameId)}>
+                  <AddToCartButton
+                    onPress={() =>
+                      onAddToCart(
+                        gameNumber,
+                        price,
+                        type,
+                        color,
+                        maxNumber,
+                        gameId
+                      )
+                    }
+                  >
                     <MaterialIcons
                       name="shopping-cart"
                       size={20}
@@ -230,7 +257,7 @@ export function NewBet() {
                   </AddToCartButton>
                 </ButtonContainer>
               )}
-            </>
+            </Animatable.View>
           )}
           <BarContainer>
             <Bar />
@@ -249,7 +276,16 @@ export function NewBet() {
             {items && gameButtons()}
           </AnimationBetContainer>
         </BetNumbersContainer>
-      </>
-    </Container>
+      </Container>
+      {showCart && <Cart />}
+
+      <Modal
+        title={modalTitle}
+        color={modalColor}
+        showAlert={showAlert}
+        callback={hideAlert}
+        message={message}
+      />
+    </>
   );
 }

@@ -1,11 +1,11 @@
-import { Dimensions } from "react-native";
+import { Dimensions, KeyboardAvoidingView } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import colors from "../../utils/colors";
 
 const { width, height } = Dimensions.get("window");
 
-export const Container = styled.View`
+export const Container = styled(KeyboardAvoidingView)`
   color: ${colors.bg};
   height: 100%;
 `;

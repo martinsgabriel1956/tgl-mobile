@@ -27,9 +27,9 @@ export function Authentication() {
   async function isLogin() {
     const user = await AsyncStorage.getItem("token");
 
-    if(!user) return;
-
-    navigation.navigate("TGL");
+    if(user) {
+      navigation.navigate("TGL");
+    }
   }
 
   function handleAuthentication() {

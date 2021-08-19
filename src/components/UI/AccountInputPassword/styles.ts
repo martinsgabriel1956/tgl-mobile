@@ -8,8 +8,12 @@ export const Container = styled.View`
   border-color: ${colors.primary};
   margin-right: 40px;
   margin-bottom: 20px;
-  padding: 16px;
+  padding: 12px;
   border-radius: 14px;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const ProfileFieldInput = styled(TextInput)`

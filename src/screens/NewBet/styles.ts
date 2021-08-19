@@ -5,10 +5,11 @@ import styled from "styled-components/native";
 
 import colors from "../../utils/colors";
 
-export const Container = styled.View`
+export const Container = styled(Animatable.View)`
   justify-content: center;
   height: 100%;
   background-color: #f7f7f7;
+  opacity: ${props => props.showCart ? '0.2' : '1.0'};
 `;
 
 export const TypeGameText = styled.Text`
@@ -36,9 +37,10 @@ export const TypeGameContainer = styled(ScrollView)`
   margin-left: 10px;
   width: 100%;
   height: 20%;
+  margin-bottom: 48px;
 `;
 export const DescriptionContainer = styled(View)`
-  top: ${(props) => (props.top ? -54 : -240)}px;
+  top: ${(props) => (props.top ? -78 : -240)}px;
   margin-top: 24px;
   margin-left: 24px;
   margin-bottom: -60px;
@@ -77,7 +79,7 @@ export const DescriptionText = styled.Text`
 `;
 
 export const BetNumbersContainer = styled(ScrollView)`
-  margin-top: 24px;
+  height: 70%;
   margin-left: 22px;
   flex-wrap: nowrap;
   margin-bottom: 24px;

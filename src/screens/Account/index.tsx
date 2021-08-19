@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
-import { Feather, AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { ScrollView, Text, View } from "react-native";
+import { Feather, AntDesign, MaterialIcons, Entypo } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 
@@ -23,6 +23,7 @@ import {
   IsEditableContainer,
 } from "./styles";
 import { AccountInput } from "../../components/UI/AccountInput";
+import { AccountInputPassword } from "../../components/UI/AccountInputPassword";
 
 export function Account() {
   const [inputName, setInputName] = useState<string>();
@@ -41,6 +42,11 @@ export function Account() {
     if (user) setToken(user);
   }
 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
   function handleEdit() {
     setIsEditable(true);
   }
@@ -48,12 +54,6 @@ export function Account() {
   function handleCancelEdit() {
     setIsEditable(false);
   }
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
 
   function handleUpdateData() {
     const isInvalid = !inputEmail || !inputName || !inputPassword;
@@ -66,14 +66,18 @@ export function Account() {
       });
 
     api
-      .post(
+      .put(
         "/users",
         {
           name: inputName,
           email: inputEmail,
           password: inputPassword,
         },
-        config
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       .then(() =>
         Toast.show({
@@ -86,7 +90,7 @@ export function Account() {
         Toast.show({
           type: "error",
           text1: "Hey",
-          text2: "Something went wrong, please check the fields",
+          text2: "Something went wrong, please check all the fields",
         })
       );
   }
@@ -101,7 +105,8 @@ export function Account() {
   }, [handleUpdateData]);
 
   return (
-    <Container>
+    <Container behavior="position" enabled>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
       <Header />
       <AvatarContainer>
         <Avatar source={avatar} />
@@ -130,19 +135,20 @@ export function Account() {
       </AvatarContainer>
       <NameText>{profileName}</NameText>
       <InfoContainer>
-        <InfoText>Info:</InfoText>
+        <InfoText>{isEditable ? "Edit Info:" : "Info:"}</InfoText>
         {isEditable ? (
           <>
-            <View>
+            <ScrollView>
               <ProfileFieldIcon>
                 <AntDesign name="user" size={28} color="white" />
               </ProfileFieldIcon>
               <AccountInput
-                placeholder="Name" 
+                placeholder="Name"
                 keyboardType="default"
                 autoCapitalize="words"
+                onChangeText={setInputName}
               />
-            </View>
+            </ScrollView>
             <View>
               <ProfileFieldIcon>
                 <MaterialIcons name="alternate-email" size={28} color="white" />
@@ -151,7 +157,14 @@ export function Account() {
                 placeholder="Email"
                 keyboardType="email-address"
                 autoCapitalize="none"
+                onChangeText={setInputEmail}
               />
+            </View>
+            <View>
+              <ProfileFieldIcon>
+                <Entypo name="key" size={24} color="white" />
+              </ProfileFieldIcon>
+              <AccountInputPassword onChangeText={setInputPassword} />
             </View>
           </>
         ) : (

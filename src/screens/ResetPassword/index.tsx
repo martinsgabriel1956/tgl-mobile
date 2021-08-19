@@ -13,11 +13,12 @@ import { SingUpButton } from "../../components/UI/SingUpButton";
 import Toast from "react-native-toast-message";
 import axios from "axios";
 import { RectButton } from "react-native-gesture-handler";
+import { api } from "../../services/api";
 
 export function ResetPassword() {
   const navigation = useNavigation();
 
-  const [email, setEmail] = useState<string>();
+  const [email, setEmail] = useState('');
 
   function handleResetPassword() {
     if (!email)
@@ -27,7 +28,7 @@ export function ResetPassword() {
         text2: "Please type a valid email",
       });
 
-    axios
+    api
       .post("/forgot_password", {
         email,
       })
@@ -42,13 +43,14 @@ export function ResetPassword() {
         Toast.show({
           type: "error",
           text1: "Hey",
-          text2: "Email already exists!",
+          text2: "Please type a valid email!",
         })
       );
   }
 
   return (
     <Container>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
       <Logo />
       <AuthText>Reset password</AuthText>
       <Card>

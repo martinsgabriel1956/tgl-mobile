@@ -28,6 +28,7 @@
     "react-dom": "16.13.1",
     "react-loader-spinner": "^4.0.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-awesome-alerts": "^1.5.2",
     "react-native-floating-labels": "^1.1.9",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-modal": "^12.1.0",
