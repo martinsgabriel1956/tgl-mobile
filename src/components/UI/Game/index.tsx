@@ -4,7 +4,7 @@ import { Container, GameText } from "./styles";
 
 interface GameProps {
   children: ReactNode;
-  onPress: () => void;
+  onPress?: () => void;
   background: string;
   color: string;
   border: string;
@@ -14,7 +14,7 @@ interface GameProps {
 
 export function Game({ children, background, color, onPress, border }: GameProps) {
   return (
-    <Container  onPress={onPress}>
+    <Container onPress={onPress}>
       <GameText style={{ backgroundColor: background, borderColor: border, color: color}} >{children}</GameText>
     </Container>
   );

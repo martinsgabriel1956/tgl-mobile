@@ -20,6 +20,7 @@ import { cartActions } from "../../../store/Cart";
 
 type HeaderProps = {
   cartActive?: boolean;
+  clearFilters?: boolean;
 };
 
 type RootState = {
@@ -28,7 +29,7 @@ type RootState = {
   };
 };
 
-export function Header({ cartActive }: HeaderProps) {
+export function Header({ cartActive, clearFilters }: HeaderProps) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -41,6 +42,11 @@ export function Header({ cartActive }: HeaderProps) {
 
   function handleShowCart() {
     dispatch(cartActions.showCart());
+  }
+
+  function handleNavigateToHome() {
+    navigation.navigate("Game");
+    clearFilters
   }
 
   return (

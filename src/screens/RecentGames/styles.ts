@@ -23,6 +23,12 @@ export const TypeGameContainer = styled(ScrollView)`
   height: 50px;
 `;
 
+export const CloseContainer = styled(View)`
+  align-items: flex-end;
+  bottom: 30px;
+  right: 12px;
+`;
+
 export const Filters = styled.Text`
   margin-top: 10px;
   margin-bottom: 6px;
@@ -33,8 +39,11 @@ export const Filters = styled.Text`
 `
 
 export const BetsContainer = styled(ScrollView)`
+  height: 100%;
   position: absolute;
   top: 300px;
+  left: 0;
+  right: 0;
   margin-left: 16px;
   margin-bottom: 32px;
   margin-top: 20px;
