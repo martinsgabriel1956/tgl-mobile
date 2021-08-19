@@ -93,6 +93,12 @@ export const DescriptionAnimatedContainer = styled(Animatable.View)``;
 
 export const BetNumberSelectedContainer = styled(ScrollView)``;
 
+export const BetCloseIcon = styled.View`
+  position: absolute;
+  bottom: 40px;
+  right: 20px;
+`;
+
 export const ButtonContainer = styled(Animatable.View)`
   flex-direction: row;
   margin-top: 20px;

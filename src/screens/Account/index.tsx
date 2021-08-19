@@ -3,6 +3,7 @@ import { ScrollView, Text, View } from "react-native";
 import { Feather, AntDesign, MaterialIcons, Entypo } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
+import * as Animatable from "react-native-animatable";
 
 import { api } from "../../services/api";
 
@@ -79,13 +80,14 @@ export function Account() {
           },
         }
       )
-      .then(() =>
-        Toast.show({
-          type: "success",
-          text1: "Hey",
-          text2: "You have successfully updated your profile",
-        })
-      )
+      .then(() => {
+        
+        setInputName('');
+        setInputEmail('');
+        setInputPassword('');
+
+        setIsEditable(false);
+      })
       .catch((err) =>
         Toast.show({
           type: "error",
@@ -98,15 +100,18 @@ export function Account() {
   useEffect(() => {
     getDate();
 
-    api.get("/user", config).then((res) => {
+    api.get("/user", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    }).then((res) => {
       setProfileName(res.data.name);
       setProfileEmail(res.data.email);
-    });
+    }).catch((err) => {})
   }, [handleUpdateData]);
 
   return (
     <Container behavior="position" enabled>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
       <Header />
       <AvatarContainer>
         <Avatar source={avatar} />
@@ -138,7 +143,10 @@ export function Account() {
         <InfoText>{isEditable ? "Edit Info:" : "Info:"}</InfoText>
         {isEditable ? (
           <>
-            <ScrollView>
+            <Animatable.View
+              animation="fadeInLeft"
+              duration={600}
+            >
               <ProfileFieldIcon>
                 <AntDesign name="user" size={28} color="white" />
               </ProfileFieldIcon>
@@ -148,8 +156,11 @@ export function Account() {
                 autoCapitalize="words"
                 onChangeText={setInputName}
               />
-            </ScrollView>
-            <View>
+            </Animatable.View>
+            <Animatable.View
+              animation="fadeInLeft"
+              duration={700}
+            >
               <ProfileFieldIcon>
                 <MaterialIcons name="alternate-email" size={28} color="white" />
               </ProfileFieldIcon>
@@ -159,13 +170,16 @@ export function Account() {
                 autoCapitalize="none"
                 onChangeText={setInputEmail}
               />
-            </View>
-            <View>
+            </Animatable.View>
+            <Animatable.View
+              animation="fadeInLeft"
+              duration={800}
+            >
               <ProfileFieldIcon>
                 <Entypo name="key" size={24} color="white" />
               </ProfileFieldIcon>
               <AccountInputPassword onChangeText={setInputPassword} />
-            </View>
+            </Animatable.View>
           </>
         ) : (
           <>

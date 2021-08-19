@@ -82,8 +82,8 @@ export function Header({ cartActive, clearFilters }: HeaderProps) {
             marginLeft: 30,
           }}
         >
-          <MaterialIcons
-            name="logout"
+          <Ionicons
+            name="log-out-outline"
             size={40}
             color={colors.border}
             style={{

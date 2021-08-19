@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AntDesign } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import * as Animatable from "react-native-animatable";
 
@@ -37,9 +36,11 @@ import {
   AddToCartButton,
   ActionButtonText,
   AddToCartButtonText,
+  BetCloseIcon,
 } from "./styles";
 import { Modal } from "../../components/UI/Modal";
 import colors from "../../utils/colors";
+import { View } from "react-native";
 
 let cartArr: any[] = [];
 
@@ -212,16 +213,28 @@ export function NewBet() {
                 {gameNumber &&
                   gameNumber.length >= 1 &&
                   gameNumber.map((value: number) => (
-                    <BetNumber
+                    <View
                       key={value}
-                      onPress={() =>
-                        handleSelectButton(value, maxNumber, price, type, color)
-                      }
-                      color={color}
                     >
-                      {value < 10 ? `0${value}` : value}
-                      <AntDesign name="close" size={12} color="white" />
-                    </BetNumber>
+                      <BetNumber
+                        key={value}
+                        onPress={() =>
+                          handleSelectButton(
+                            value,
+                            maxNumber,
+                            price,
+                            type,
+                            color
+                          )
+                        }
+                        color={color}
+                      >
+                        {value < 10 ? `0${value}` : value}
+                      </BetNumber>
+                      <BetCloseIcon>
+                        <AntDesign name="close" size={12} color="white" />
+                      </BetCloseIcon>
+                    </View>
                   ))}
               </BetNumberSelectedContainer>
               {gameNumber && gameNumber.length >= 1 && (
@@ -244,8 +257,8 @@ export function NewBet() {
                       )
                     }
                   >
-                    <MaterialIcons
-                      name="shopping-cart"
+                    <Ionicons
+                      name="ios-cart-outline"
                       size={20}
                       color="white"
                       style={{

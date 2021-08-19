@@ -5,6 +5,7 @@ import { RectButton } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { api } from "../../../services/api";
+import { useNavigation } from "@react-navigation/core";
 
 import { cartActions } from "../../../store/Cart";
 
@@ -24,7 +25,7 @@ import {
   SaveText,
   SaveButton,
   CartTitleContainer,
-  BetsContainer
+  BetsContainer,
 } from "./styles";
 
 import colors from "../../../utils/colors";
@@ -44,6 +45,8 @@ type RootState = {
 };
 
 export function Cart() {
+  const navigation = useNavigation();
+
   let date = new Date();
   let dateString =
     date.getDate() + "/0" + (date.getMonth() + 1) + "/" + date.getFullYear();
@@ -110,6 +113,11 @@ export function Cart() {
           "Hey!",
           `${colors.primary}`
         );
+        setTimeout(() => {
+          navigation.navigate("Games");
+        }, 3000);
+        
+        return dispatch(cartActions.clearCart());
       })
       .catch(() => {
         displayAlert(
@@ -117,7 +125,6 @@ export function Cart() {
           "Oops!",
           `${colors.primary}`
         );
-        return dispatch(cartActions.clearCart());
       });
   }
 
@@ -136,7 +143,7 @@ export function Cart() {
   return (
     <>
       <Container>
-        <Animatable.View animation="bounceInRight" duration={1200}>
+        <Animatable.View animation="bounceInRight" duration={800}>
           <CloseContainer>
             <RectButton onPress={closeCart}>
               <Ionicons name="close" size={38} color={colors.primary} />
@@ -150,9 +157,7 @@ export function Cart() {
             />
             <CartTitle>Cart</CartTitle>
           </CartTitleContainer>
-          <BetsContainer
-            horizontal={false}
-          >
+          <BetsContainer horizontal={false}>
             {cartItem.map(
               (item: {
                 game_id: number;
@@ -162,7 +167,7 @@ export function Cart() {
                 type: string;
                 color: string;
               }) => (
-                <Bets>
+                <Bets key={item.id}>
                   <Bet
                     key={item.id}
                     numbers={item.numbers}
@@ -193,7 +198,7 @@ export function Cart() {
             </ValueText>
           </CartTotalTextContainer>
           <SaveCartContainer>
-            <SaveButton onPress={saveGame}>
+            <SaveButton onPress={() => saveGame(cartItem)}>
               <SaveText>Save</SaveText>
               <Ionicons name="arrow-forward" size={36} color={colors.primary} />
             </SaveButton>

@@ -62,16 +62,16 @@ export function RecentGames() {
 
   useEffect(() => {
     getDate();
-    api.get("/games").then((res) => setItems(res.data));
+    api.get("/games").then((res) => setItems(res.data)).catch((err) => err.message);
     api
-      .get(`/bets?page=${page}&listNumber=12`, {
+      .get(`/bets?page=${page}&listNumber=10`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
         setGames(res.data.data);
-      });
+      }).catch((err) => err.message)
   }, [items]);
 
   return (
@@ -82,13 +82,15 @@ export function RecentGames() {
       <TypeGameContainer horizontal showsHorizontalScrollIndicator={false}>
         {items &&
           items.map((item: ItemTypes, index: number) => (
-            <GameContainer key={index}>
+            <GameContainer 
+              key={index}
+            >
               <Game
                 key={index}
                 background={
                   gamesSelected.find((id) => id === item.id)
                     ? item.color
-                    : "#fff"
+                    : "transparent"
                 }
                 border={item.color}
                 onPress={() => filterGamesHandler(item.id, page)}
@@ -111,7 +113,9 @@ export function RecentGames() {
       <BetsContainer>
         {gamesFiltered.length === 0 &&
           games.map((item: any, index: number) => (
-            <Bets>
+            <Bets
+            key={index}
+            >
               <Bet
                 key={index}
                 numbers={item.numbers}
