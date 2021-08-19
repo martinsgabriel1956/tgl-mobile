@@ -38,7 +38,7 @@ export function RecentGames() {
       setGamesSelected((prev) => prev.concat(id));
 
       api
-        .get(`/bets?page=${page}&listNumber=12`, {
+        .get(`/bets?page=${page}&listNumber=10`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
