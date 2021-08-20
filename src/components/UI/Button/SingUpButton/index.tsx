@@ -3,7 +3,7 @@ import { RectButtonProps } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons'; 
 
 import { Container, SingUpText } from './styles';
-import colors from '../../../utils/colors';
+import colors from '../../../../utils/colors';
 
 export function SingUpButton(props: RectButtonProps) {
   return (

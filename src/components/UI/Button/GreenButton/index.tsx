@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { AntDesign } from '@expo/vector-icons'; 
 
 import { Container, GreenButtonText } from './styles';
-import colors from '../../../utils/colors';
+import colors from '../../../../utils/colors';
 import { RectButtonProps } from 'react-native-gesture-handler';
 
 interface GreenButtonProps {

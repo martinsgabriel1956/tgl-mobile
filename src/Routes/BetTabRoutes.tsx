@@ -8,7 +8,7 @@ import { RecentGames } from "../screens/RecentGames";
 import { NewBet } from "../screens/NewBet";
 import { Account } from "../screens/Account";
 
-import { NewBetButton } from "../components/UI/NewBetButton";
+import { NewBetButton } from "../components/UI/Button/NewBetButton";
 
 const Tabs = createBottomTabNavigator();
 

@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import colors from "../../../utils/colors";
+import colors from "../../utils/colors";
 
 export const Container = styled.View`
   margin-left: 10px;

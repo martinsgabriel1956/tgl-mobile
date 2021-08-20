@@ -3,22 +3,13 @@ import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Container } from "./styles";
 
-import colors from "../../../utils/colors";
+import betIcon from '../../../assets/icon.png'  
+import { Image } from "react-native";
 
 export function NewBetIcon() {
   return (
     <Container>
-      <MaterialCommunityIcons
-        name="circle-outline"
-        size={110}
-        color={colors.headerBg}
-        style={{
-          position: "absolute",
-          left: -27,
-          top: -27,
-        }}
-      />
-      <Feather name="dollar-sign" size={56} color={colors.headerBg} />
+      <Image source={betIcon} />
     </Container>
   );
 }

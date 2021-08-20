@@ -4,15 +4,17 @@ import { RectButton } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 
 import { AuthText } from "../../components/UI/AuthText";
-import { BackButton } from "../../components/UI/BackButton";
+import { BackButton } from "../../components/UI/Button/BackButton";
 import { Card } from "../../components/UI/Card";
-import { GreenButton } from "../../components/UI/GreenButton";
-import { Input } from "../../components/UI/Input";
+import { GreenButton } from "../../components/UI/Button/GreenButton";
+import { Input } from "../../components/Input/Input";
 import { Logo } from "../../components/UI/Logo";
-import { PasswordInput } from "../../components/UI/PasswordInput";
+import { PasswordInput } from "../../components/Input/PasswordInput";
 
 import { Container, TextBy } from "./styles";
 import { api } from "../../services/api";
+import { Modal } from "../../components/UI/Modal";
+import colors from "../../utils/colors";
 
 export function Registration() {
   const navigation = useNavigation();
@@ -21,16 +23,25 @@ export function Registration() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
 
+  const [modalColor, setModalColor] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
+  const [message, setmessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+
+  function displayAlert(message: string, title: string, color: string) {
+    setModalTitle(title);
+    setModalColor(color);
+    setmessage(message);
+    setShowAlert(true);
+  }
+  function hideAlert() {
+    setShowAlert(false);
+  }
+
   function handleRegister() {
     const isInvalid = !name || !email || !password;
 
-    if (isInvalid) {
-      Toast.show({
-        type: "error",
-        text1: "Hey",
-        text2: "Please fill all the fields",
-      });
-    }
+    if (isInvalid) displayAlert("Please fill all the fields", "Hey", "red");
 
     api
       .post("/users", {
@@ -39,50 +50,50 @@ export function Registration() {
         password,
       })
       .then(() => {
-        Toast.show({
-          type: "success",
-          text1: "Hey",
-          text2: "You are now registered",
-        });
+        displayAlert("You are now registered!!", "Hey", `${colors.primary}`);
 
         setTimeout(() => {
           navigation.navigate("Authentication");
         }, 2000);
       })
       .catch((err) =>
-        Toast.show({
-          type: "error",
-          text1: "Hey",
-          text2: "Email already exists!!",
-        })
+        displayAlert("Email already exists!!", "Hey", `${colors.primary}`)
       );
   }
 
   return (
-    <Container>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
-      <Logo />
-      <AuthText>Registration</AuthText>
-      <Card>
-        <Input
-          placeholder="Name"
-          keyboardType="default"
-          autoCapitalize="words"
-          onChangeText={setName}
-        />
-        <Input
-          placeholder="Email"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onChangeText={setEmail}
-        />
-        <PasswordInput onChangeText={setPassword} />
-        <RectButton onPress={handleRegister}>
-          <GreenButton>Register</GreenButton>
-        </RectButton>
-      </Card>
-      <BackButton onPress={() => navigation.goBack()} />
-      <TextBy>Copyright 2021 Luby Software</TextBy>
-    </Container>
+    <>
+      <Container>
+        <Logo />
+        <AuthText>Registration</AuthText>
+        <Card>
+          <Input
+            placeholder="Name"
+            keyboardType="default"
+            autoCapitalize="words"
+            onChangeText={setName}
+          />
+          <Input
+            placeholder="Email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            onChangeText={setEmail}
+          />
+          <PasswordInput onChangeText={setPassword} />
+          <RectButton onPress={handleRegister}>
+            <GreenButton>Register</GreenButton>
+          </RectButton>
+        </Card>
+        <BackButton onPress={() => navigation.goBack()} />
+        <TextBy>Copyright 2021 Luby Software</TextBy>
+      </Container>
+      <Modal
+        title={modalTitle}
+        color={modalColor}
+        showAlert={showAlert}
+        callback={hideAlert}
+        message={message}
+      />
+    </>
   );
 }

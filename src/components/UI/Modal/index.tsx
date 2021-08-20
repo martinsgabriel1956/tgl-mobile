@@ -1,6 +1,5 @@
 import React from "react";
 import AwesomeAlert from "react-native-awesome-alerts";
-import * as Animatable from "react-native-animatable";
 
 type ModalProps = {
   showAlert: boolean;
@@ -18,16 +17,16 @@ export function Modal({
   callback,
 }: ModalProps) {
   return (
-    <Animatable.View
-      animation="fadeIn"
-      duration={1200}
-    >
-      <AwesomeAlert
-      titleStyle={{ fontSize: 26, fontFamily: 'sans-serif', marginBottom: 10 }}
-      contentContainerStyle={{ width: '100%', padding: 14,  }}
-      messageStyle={{ fontSize: 16, fontFamily: 'sans-serif', marginBottom: 10 }}
-      confirmButtonStyle={{  width: '100%' }}
-      confirmButtonTextStyle={{ textAlign: 'center', fontSize: 18 }}
+    <AwesomeAlert
+      titleStyle={{ fontSize: 26, fontFamily: "sans-serif", marginBottom: 10 }}
+      contentContainerStyle={{ width: "100%", padding: 14 }}
+      messageStyle={{
+        fontSize: 16,
+        fontFamily: "sans-serif",
+        marginBottom: 10,
+      }}
+      confirmButtonStyle={{ width: "100%" }}
+      confirmButtonTextStyle={{ textAlign: "center", fontSize: 18 }}
       show={showAlert}
       showProgress={false}
       title={title}
@@ -38,8 +37,6 @@ export function Modal({
       closeOnHardwareBackPress={false}
       showConfirmButton={true}
       confirmText="Close"
-      
     />
-    </Animatable.View>
   );
 }

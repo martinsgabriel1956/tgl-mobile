@@ -2,20 +2,22 @@ import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RectButton } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { ActivityIndicator, View } from "react-native";
+import * as Animatable from "react-native-animatable";
+
+import { api } from "../../services/api";
+import colors from "../../utils/colors";
 
 import { AuthText } from "../../components/UI/AuthText";
 import { Card } from "../../components/UI/Card";
-import { GreenButton } from "../../components/UI/GreenButton";
-import { Input } from "../../components/UI/Input";
+import { GreenButton } from "../../components/UI/Button/GreenButton";
+import { Input } from "../../components/Input/Input";
 import { Logo } from "../../components/UI/Logo";
-import { PasswordInput } from "../../components/UI/PasswordInput";
-import { SingUpButton } from "../../components/UI/SingUpButton";
+import { PasswordInput } from "../../components/Input/PasswordInput";
+import { SingUpButton } from "../../components/UI/Button/SingUpButton";
+import { Modal } from "../../components/UI/Modal";
 
 import { Container, TextBy, ForgetPasswordText } from "./styles";
-import colors from "../../utils/colors";
-import { ActivityIndicator } from "react-native";
-import { api } from "../../services/api";
-import Toast from "react-native-toast-message";
 
 export function Authentication() {
   const navigation = useNavigation();
@@ -24,10 +26,52 @@ export function Authentication() {
   const [password, setPassword] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
 
+  const [modalColor, setModalColor] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
+  const [message, setmessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+
+  function hideAlert() {
+    setShowAlert(false);
+  }
+
+  const UpAnimation = {
+    0: {
+      bottom: -400,
+    },
+    0.5: {
+      bottom: 150,
+    },
+    0.6: {},
+    0.7: {},
+    0.75: {
+      bottom: 750,
+    },
+    1: {
+      bottom: 2000,
+    },
+  };
+
+  const handleOpacity = {
+    0: {
+      opacity: 0.3,
+    },
+    1: {
+      opacity: 1,
+    },
+  };
+
+  function displayAlert(message: string, title: string, color: string) {
+    setModalTitle(title);
+    setModalColor(color);
+    setmessage(message);
+    setShowAlert(true);
+  }
+
   async function isLogin() {
     const user = await AsyncStorage.getItem("token");
 
-    if(user) {
+    if (user) {
       navigation.navigate("TGL");
     }
   }
@@ -51,11 +95,13 @@ export function Authentication() {
       })
       .catch(async (err) => {
         setIsLoading(false);
-        Toast.show({
-          type: "error",
-          text1: "Hey",
-          text2: "Email or password are wrong",
-        });
+        displayAlert(
+          "Email or password are wrong",
+          "Hey!!",
+          `${colors.primary}`
+        );
+        setEmail("");
+        setPassword("");
         await AsyncStorage.clear();
       });
   }
@@ -65,10 +111,11 @@ export function Authentication() {
 
   return (
     <>
-      <Container animation="fadeInUp" duration={2000}>
+      <Container animation={handleOpacity} 
+      duration={8000}
+      >
         {!isLoading ? (
           <>
-            <Toast ref={(ref) => Toast.setRef(ref)} />
             <Logo />
             <AuthText>Authentication</AuthText>
             <Card>
@@ -93,6 +140,24 @@ export function Authentication() {
           <ActivityIndicator size={200} color={colors.primary} />
         )}
       </Container>
+      <Animatable.Image
+        animation={UpAnimation}
+        duration={6000}
+        source={require("../../assets/splash.png")}
+        style={{
+          position: "absolute",
+          alignSelf: "center",
+          width: "100%",
+          height: "100%",
+        }}
+      />
+      <Modal
+        title={modalTitle}
+        color={modalColor}
+        showAlert={showAlert}
+        callback={hideAlert}
+        message={message}
+      />
     </>
   );
 }

@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Container, IconContainer } from './styles';
 
-import { NewBetIcon } from '../NewBetIcon';
+import { NewBetIcon } from '../../NewBetIcon';
 
 export function NewBetButton() {
   return (

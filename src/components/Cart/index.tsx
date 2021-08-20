@@ -4,13 +4,13 @@ import * as Animatable from "react-native-animatable";
 import { RectButton } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { api } from "../../../services/api";
+import { api } from "../../services/api";
 import { useNavigation } from "@react-navigation/core";
 
-import { cartActions } from "../../../store/Cart";
+import { cartActions } from "../../store/Cart";
 
 import { Bet } from "../Bet";
-import { Modal } from "../Modal";
+import { Modal } from "../UI/Modal";
 
 import {
   Container,
@@ -28,7 +28,7 @@ import {
   BetsContainer,
 } from "./styles";
 
-import colors from "../../../utils/colors";
+import colors from "../../utils/colors";
 
 type RootState = {
   cart: {
@@ -86,9 +86,9 @@ export function Cart() {
       const stillNotReachATotalPrice = 30 - totalPrice;
 
       displayAlert(
-        `Faltam R$ ${stillNotReachATotalPrice
+        `Still missing R$ ${stillNotReachATotalPrice
           .toFixed(2)
-          .replace(".", ",")} para o valor minimo`,
+          .replace(".", ",")} to save your bets`,
         "Oops!",
         `${colors.primary}`
       );
@@ -116,7 +116,7 @@ export function Cart() {
         setTimeout(() => {
           navigation.navigate("Games");
         }, 3000);
-        
+
         return dispatch(cartActions.clearCart());
       })
       .catch(() => {
@@ -143,7 +143,7 @@ export function Cart() {
   return (
     <>
       <Container>
-        <Animatable.View animation="bounceInRight" duration={800}>
+        <Animatable.View animation="bounceInRight" duration={500}>
           <CloseContainer>
             <RectButton onPress={closeCart}>
               <Ionicons name="close" size={38} color={colors.primary} />
@@ -203,14 +203,14 @@ export function Cart() {
               <Ionicons name="arrow-forward" size={36} color={colors.primary} />
             </SaveButton>
           </SaveCartContainer>
-          <Modal
-            title={modalTitle}
-            color={modalColor}
-            showAlert={showAlert}
-            callback={hideAlert}
-            message={message}
-          />
         </Animatable.View>
+        <Modal
+          title={modalTitle}
+          color={modalColor}
+          showAlert={showAlert}
+          callback={hideAlert}
+          message={message}
+        />
       </Container>
     </>
   );

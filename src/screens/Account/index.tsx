@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { View } from "react-native";
 import { Feather, AntDesign, MaterialIcons, Entypo } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Toast from "react-native-toast-message";
 import * as Animatable from "react-native-animatable";
 
 import { api } from "../../services/api";
 
 import { Header } from "../../components/UI/Header";
 import { ProfileField } from "../../components/UI/ProfileField";
+import { AccountInput } from "../../components/Input/AccountInput";
+import { AccountInputPassword } from "../../components/Input/AccountInputPassword";
+import { Modal } from "../../components/UI/Modal";
 
 import avatar from "../../assets/avatar.png";
 
@@ -23,8 +25,8 @@ import {
   ProfileFieldIcon,
   IsEditableContainer,
 } from "./styles";
-import { AccountInput } from "../../components/UI/AccountInput";
-import { AccountInputPassword } from "../../components/UI/AccountInputPassword";
+
+import colors from "../../utils/colors";
 
 export function Account() {
   const [inputName, setInputName] = useState<string>();
@@ -37,17 +39,17 @@ export function Account() {
   const [isEditable, setIsEditable] = useState(false);
   const [token, setToken] = useState<string>();
 
+  const [modalColor, setModalColor] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
+  const [message, setmessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+
   async function getDate() {
     const user = await AsyncStorage.getItem("token");
 
     if (user) setToken(user);
   }
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
   function handleEdit() {
     setIsEditable(true);
   }
@@ -56,15 +58,22 @@ export function Account() {
     setIsEditable(false);
   }
 
+  function hideAlert() {
+    setShowAlert(false);
+  }
+
+  function displayAlert(message: string, title: string, color: string) {
+    setModalTitle(title);
+    setModalColor(color);
+    setmessage(message);
+    setShowAlert(true);
+  }
+
   function handleUpdateData() {
     const isInvalid = !inputEmail || !inputName || !inputPassword;
 
     if (isInvalid)
-      Toast.show({
-        type: "error",
-        text1: "Hey",
-        text2: "Please fill all the fields",
-      });
+      displayAlert("Please fill all the fields", "Hey", `${colors.primary}`);
 
     api
       .put(
@@ -81,123 +90,136 @@ export function Account() {
         }
       )
       .then(() => {
-        
-        setInputName('');
-        setInputEmail('');
-        setInputPassword('');
+        displayAlert("Your data was updated", "Success", `${colors.primary}`);
+        setInputName("");
+        setInputEmail("");
+        setInputPassword("");
 
         setIsEditable(false);
       })
       .catch((err) =>
-        Toast.show({
-          type: "error",
-          text1: "Hey",
-          text2: "Something went wrong, please check all the fields",
-        })
+        displayAlert(
+          "Something went wrong, please check the fields",
+          "Hey",
+          `${colors.primary}`
+        )
       );
   }
 
   useEffect(() => {
     getDate();
 
-    api.get("/user", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    }).then((res) => {
-      setProfileName(res.data.name);
-      setProfileEmail(res.data.email);
-    }).catch((err) => {})
+    api
+      .get("/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setProfileName(res.data.name);
+        setProfileEmail(res.data.email);
+      })
+      .catch((err) => {});
   }, [handleUpdateData]);
 
   return (
-    <Container behavior="position" enabled>
-      <Header />
-      <AvatarContainer>
-        <Avatar source={avatar} />
+    <>
+      <Container behavior="position" enabled>
+        <Header />
+        <AvatarContainer>
+          <Avatar source={avatar} />
 
-        {!isEditable ? (
-          <View>
-            <EditIconContainer onPress={handleEdit}>
-              <Feather name="edit" size={32} color="white" />
-            </EditIconContainer>
-          </View>
-        ) : (
-          <IsEditableContainer>
-            <EditIconContainer
-              onPress={handleCancelEdit}
-              style={{
-                backgroundColor: "red",
-              }}
-            >
-              <AntDesign name="close" size={32} color="white" />
-            </EditIconContainer>
-            <EditIconContainer onPress={handleUpdateData}>
-              <AntDesign name="check" size={32} color="white" />
-            </EditIconContainer>
-          </IsEditableContainer>
-        )}
-      </AvatarContainer>
-      <NameText>{profileName}</NameText>
-      <InfoContainer>
-        <InfoText>{isEditable ? "Edit Info:" : "Info:"}</InfoText>
-        {isEditable ? (
-          <>
-            <Animatable.View
-              animation="fadeInLeft"
-              duration={600}
-            >
-              <ProfileFieldIcon>
-                <AntDesign name="user" size={28} color="white" />
-              </ProfileFieldIcon>
-              <AccountInput
-                placeholder="Name"
-                keyboardType="default"
-                autoCapitalize="words"
-                onChangeText={setInputName}
-              />
-            </Animatable.View>
-            <Animatable.View
-              animation="fadeInLeft"
-              duration={700}
-            >
-              <ProfileFieldIcon>
-                <MaterialIcons name="alternate-email" size={28} color="white" />
-              </ProfileFieldIcon>
-              <AccountInput
-                placeholder="Email"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                onChangeText={setInputEmail}
-              />
-            </Animatable.View>
-            <Animatable.View
-              animation="fadeInLeft"
-              duration={800}
-            >
-              <ProfileFieldIcon>
-                <Entypo name="key" size={24} color="white" />
-              </ProfileFieldIcon>
-              <AccountInputPassword onChangeText={setInputPassword} />
-            </Animatable.View>
-          </>
-        ) : (
-          <>
+          {!isEditable ? (
             <View>
-              <ProfileFieldIcon>
-                <AntDesign name="user" size={28} color="white" />
-              </ProfileFieldIcon>
-              <ProfileField>{profileName}</ProfileField>
+              <EditIconContainer onPress={handleEdit}>
+                <Feather name="edit" size={32} color="white" />
+              </EditIconContainer>
             </View>
-            <View>
-              <ProfileFieldIcon>
-                <MaterialIcons name="alternate-email" size={28} color="white" />
-              </ProfileFieldIcon>
-              <ProfileField>{profileEmail}</ProfileField>
-            </View>
-          </>
-        )}
-      </InfoContainer>
-    </Container>
+          ) : (
+            <IsEditableContainer>
+              <EditIconContainer
+                onPress={handleCancelEdit}
+                style={{
+                  backgroundColor: "red",
+                }}
+              >
+                <AntDesign name="close" size={32} color="white" />
+              </EditIconContainer>
+              <EditIconContainer onPress={handleUpdateData}>
+                <AntDesign name="check" size={32} color="white" />
+              </EditIconContainer>
+            </IsEditableContainer>
+          )}
+        </AvatarContainer>
+        <NameText>{profileName}</NameText>
+        <InfoContainer>
+          <InfoText>{isEditable ? "Edit Info:" : "Info:"}</InfoText>
+          {isEditable ? (
+            <>
+              <Animatable.View animation="fadeInLeft" duration={600}>
+                <ProfileFieldIcon>
+                  <AntDesign name="user" size={28} color="white" />
+                </ProfileFieldIcon>
+                <AccountInput
+                  placeholder="Name"
+                  keyboardType="default"
+                  autoCapitalize="words"
+                  onChangeText={setInputName}
+                />
+              </Animatable.View>
+              <Animatable.View animation="fadeInLeft" duration={700}>
+                <ProfileFieldIcon>
+                  <MaterialIcons
+                    name="alternate-email"
+                    size={28}
+                    color="white"
+                  />
+                </ProfileFieldIcon>
+                <AccountInput
+                  placeholder="Email"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  onChangeText={setInputEmail}
+                />
+              </Animatable.View>
+              <Animatable.View animation="fadeInLeft" duration={800}>
+                <ProfileFieldIcon>
+                  <Entypo name="key" size={24} color="white" />
+                </ProfileFieldIcon>
+                <AccountInputPassword onChangeText={setInputPassword} />
+              </Animatable.View>
+            </>
+          ) : (
+            <>
+              <View>
+                <ProfileFieldIcon>
+                  <AntDesign name="user" size={28} color="white" />
+                </ProfileFieldIcon>
+                <ProfileField>{profileName}</ProfileField>
+              </View>
+              <View>
+                <ProfileFieldIcon>
+                  <MaterialIcons
+                    name="alternate-email"
+                    size={28}
+                    color="white"
+                  />
+                </ProfileFieldIcon>
+                <ProfileField>{profileEmail}</ProfileField>
+              </View>
+            </>
+          )}
+        </InfoContainer>
+      </Container>
+      <Animatable.View animation="fadeIn" duration={200}>
+        <Modal
+          title={modalTitle}
+          color={modalColor}
+          showAlert={showAlert}
+          callback={hideAlert}
+          message={message}
+        />
+      </Animatable.View>
+    </>
   );
 }

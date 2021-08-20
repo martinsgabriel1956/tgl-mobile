@@ -1,14 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { Bet } from "../../components/UI/Bet";
-import { Bets } from "../../components/UI/Cart/styles";
+import { Bet } from "../../components/Bet";
+import { Bets } from "../../components/Cart/styles";
 import { Game } from "../../components/UI/Game";
-
 import { Header } from "../../components/UI/Header";
+import { GameContainer } from "../NewBet/styles";
+
 import { ItemTypes } from "../../interfaces/ItemTypes";
 import { api } from "../../services/api";
-import { GameContainer } from "../NewBet/styles";
 
 import {
   Container,
@@ -17,11 +17,20 @@ import {
   Filters,
   BetsContainer,
   CloseContainer,
+  FilteredButtonsContainer,
+  PrevButton,
+  NextButton,
+  FilteredContainer,
+  NumberPage,
 } from "./styles";
+
+import colors from "../../utils/colors";
 
 export function RecentGames() {
   const [items, setItems] = useState([]);
   const [token, setToken] = useState("");
+  const [lastPage, setLastPage] = useState();
+  const [meta, setMeta] = useState({ current_page: 1, last_page: 1 });
   const [page, setPage] = useState(1);
   const [gamesFiltered, setGamesFiltered] = useState([]);
   const [gamesSelected, setGamesSelected] = useState([10]);
@@ -31,6 +40,20 @@ export function RecentGames() {
     const user = await AsyncStorage.getItem("token");
 
     setToken(user!);
+  }
+
+  function nextPage() {
+    if (page !== lastPage) {
+      setGamesFiltered([]);
+      setPage((page) => page + 1);
+    }
+  }
+
+  function prevPage() {
+    if (page !== 1) {
+      setGamesFiltered([]);
+      setPage((page) => page - 1);
+    }
   }
 
   function filterGamesHandler(id: number, page: number) {
@@ -62,7 +85,10 @@ export function RecentGames() {
 
   useEffect(() => {
     getDate();
-    api.get("/games").then((res) => setItems(res.data)).catch((err) => err.message);
+    api
+      .get("/games")
+      .then((res) => setItems(res.data))
+      .catch((err) => err.message);
     api
       .get(`/bets?page=${page}&listNumber=10`, {
         headers: {
@@ -71,20 +97,36 @@ export function RecentGames() {
       })
       .then((res) => {
         setGames(res.data.data);
-      }).catch((err) => err.message)
+        setLastPage(res.data.meta.last_page);
+        setMeta(res.data.meta);
+      })
+      .catch((err) => err.message);
   }, [items]);
 
   return (
     <Container>
       <Header />
       <RecentGamesText>Recent Games</RecentGamesText>
-      <Filters>Filters</Filters>
+      <FilteredContainer>
+        <Filters>Filters</Filters>
+        {gamesFiltered && (
+          <FilteredButtonsContainer>
+            <PrevButton onPress={() => prevPage()}>
+              <AntDesign name="doubleleft" size={28} color={colors.primary} />
+            </PrevButton>
+            <NumberPage>
+              {meta.current_page} / {lastPage}
+            </NumberPage>
+            <NextButton onPress={() => nextPage()}>
+              <AntDesign name="doubleright" size={28} color={colors.primary} />
+            </NextButton>
+          </FilteredButtonsContainer>
+        )}
+      </FilteredContainer>
       <TypeGameContainer horizontal showsHorizontalScrollIndicator={false}>
         {items &&
           items.map((item: ItemTypes, index: number) => (
-            <GameContainer 
-              key={index}
-            >
+            <GameContainer key={index}>
               <Game
                 key={index}
                 background={
@@ -110,12 +152,11 @@ export function RecentGames() {
             </GameContainer>
           ))}
       </TypeGameContainer>
+
       <BetsContainer>
         {gamesFiltered.length === 0 &&
           games.map((item: any, index: number) => (
-            <Bets
-            key={index}
-            >
+            <Bets key={index}>
               <Bet
                 key={index}
                 numbers={item.numbers}

@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import colors from '../../../utils/colors';
+import colors from '../../../../utils/colors';
 
 export const Container = styled.View`
   background-color: red;
@@ -17,9 +17,9 @@ export const IconContainer = styled.View`
    height: 110px;
    border-radius: 60px;
    top: 6px;
-   left: 4px;
+   left: 5px;
    position: absolute;
-   background-color: ${colors.primary};
+   background-color: #B5C300;
 
    align-items: center;
    justify-content: center;

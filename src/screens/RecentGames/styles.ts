@@ -1,5 +1,7 @@
 import { ScrollView, View } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
 import styled from "styled-components/native";
+
 import colors from "../../utils/colors";
 
 export const Container = styled.View`
@@ -28,6 +30,32 @@ export const CloseContainer = styled(View)`
   bottom: 30px;
   right: 12px;
 `;
+
+export const FilteredContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const FilteredButtonsContainer = styled(View)`
+  flex-direction: row;
+  margin-right: 32px;
+  `;
+
+export const PrevButton = styled(RectButton)`
+  margin-right: 18px;
+`;
+
+export const NextButton = styled(RectButton)``;
+
+export const NumberPage = styled.Text`
+  font-size: 18px;
+  text-align: center;
+  margin-right: 12px;
+  font-weight: bold;
+  color: ${colors.title};
+  font-style: italic;
+`
 
 export const Filters = styled.Text`
   margin-top: 10px;

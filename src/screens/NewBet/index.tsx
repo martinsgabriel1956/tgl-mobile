@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import * as Animatable from "react-native-animatable";
+import { View } from "react-native";
 
 import { RootState } from "../../interfaces/RootState";
 
@@ -9,7 +10,8 @@ import { BetNumber } from "../../components/UI/BetNumber";
 import { Game } from "../../components/UI/Game";
 import { Header } from "../../components/UI/Header";
 import { ItemTypes } from "../../interfaces/ItemTypes";
-import { Cart } from "../../components/UI/Cart";
+import { Cart } from "../../components/Cart";
+import { Modal } from "../../components/UI/Modal";
 
 import { api } from "../../services/api";
 
@@ -38,9 +40,8 @@ import {
   AddToCartButtonText,
   BetCloseIcon,
 } from "./styles";
-import { Modal } from "../../components/UI/Modal";
+
 import colors from "../../utils/colors";
-import { View } from "react-native";
 
 let cartArr: any[] = [];
 
@@ -55,11 +56,6 @@ export function NewBet() {
     (state: RootState) => state.cart.showCart
   );
 
-  const [modalColor, setModalColor] = useState("");
-  const [modalTitle, setModalTitle] = useState("");
-  const [message, setmessage] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
-
   const [items, setItems] = useState([]);
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
@@ -70,6 +66,11 @@ export function NewBet() {
   const [gameId, setGameId] = useState(0);
   const [showBetNumbers, setShowBetNumbers] = useState(false);
 
+  const [modalColor, setModalColor] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
+  const [message, setmessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+
   useEffect(() => {
     api.get("/games").then((res) => setItems(res.data));
   }, []);
@@ -78,7 +79,6 @@ export function NewBet() {
     setModalTitle(title);
     setModalColor(color);
     setmessage(message);
-
     setShowAlert(true);
   }
 
@@ -213,9 +213,7 @@ export function NewBet() {
                 {gameNumber &&
                   gameNumber.length >= 1 &&
                   gameNumber.map((value: number) => (
-                    <View
-                      key={value}
-                    >
+                    <View key={value}>
                       <BetNumber
                         key={value}
                         onPress={() =>
@@ -270,11 +268,11 @@ export function NewBet() {
                   </AddToCartButton>
                 </ButtonContainer>
               )}
+              <BarContainer>
+                <Bar />
+              </BarContainer>
             </Animatable.View>
           )}
-          <BarContainer>
-            <Bar />
-          </BarContainer>
         </DescriptionContainer>
 
         <BetNumbersContainer showsHorizontalScrollIndicator={false}>
