@@ -100,8 +100,6 @@ export function Authentication() {
           "Hey!!",
           `${colors.primary}`
         );
-        setEmail("");
-        setPassword("");
         await AsyncStorage.clear();
       });
   }
@@ -111,9 +109,7 @@ export function Authentication() {
 
   return (
     <>
-      <Container animation={handleOpacity} 
-      duration={8000}
-      >
+      <Container animation={handleOpacity} duration={8000}>
         {!isLoading ? (
           <>
             <Logo />
@@ -140,6 +136,13 @@ export function Authentication() {
           <ActivityIndicator size={200} color={colors.primary} />
         )}
       </Container>
+      <Modal
+        title={modalTitle}
+        color={modalColor}
+        showAlert={showAlert}
+        callback={hideAlert}
+        message={message}
+      />
       <Animatable.Image
         animation={UpAnimation}
         duration={6000}
@@ -150,13 +153,6 @@ export function Authentication() {
           width: "100%",
           height: "100%",
         }}
-      />
-      <Modal
-        title={modalTitle}
-        color={modalColor}
-        showAlert={showAlert}
-        callback={hideAlert}
-        message={message}
       />
     </>
   );

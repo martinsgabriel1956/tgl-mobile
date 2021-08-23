@@ -50,7 +50,7 @@ export const CartTotalTextContainer = styled.View`
   justify-content: space-between;
   padding: 0 24px;
   position: absolute;
-  top: 540px;
+  top: 480px;
   left: 0;
   right: 0;
 `;
@@ -78,7 +78,7 @@ export const SaveCartContainer = styled.View`
   position: absolute;
   left: 0;
   right: 0;
-  top: 620px;
+  top: 538px;
 `;
 
 export const SaveButton = styled(RectButton)`

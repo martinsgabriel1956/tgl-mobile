@@ -47,6 +47,7 @@ export const NameText = styled.Text`
 export const InfoContainer = styled.View`
   margin-top: 20px;
   margin-left: 30px;
+  margin-bottom: 40px;
 `;
 
 export const InfoText = styled.Text`

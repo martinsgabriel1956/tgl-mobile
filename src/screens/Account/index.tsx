@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Feather, AntDesign, MaterialIcons, Entypo } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Animatable from "react-native-animatable";
@@ -124,7 +124,11 @@ export function Account() {
 
   return (
     <>
-      <Container behavior="position" enabled>
+      <Container 
+        behavior="position" 
+        enabled
+        keyboardVerticalOffset={80}
+      >
         <Header />
         <AvatarContainer>
           <Avatar source={avatar} />
@@ -141,6 +145,7 @@ export function Account() {
                 onPress={handleCancelEdit}
                 style={{
                   backgroundColor: "red",
+                  marginRight: 30
                 }}
               >
                 <AntDesign name="close" size={32} color="white" />
