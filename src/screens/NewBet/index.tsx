@@ -41,8 +41,6 @@ import {
   BetCloseIcon,
 } from "./styles";
 
-import colors from "../../utils/colors";
-
 let cartArr: any[] = [];
 
 export function NewBet() {
@@ -108,9 +106,15 @@ export function NewBet() {
           maxNumber - gameNumber.length
         } numbers to complete your bet`,
         "Error: ",
-        `${colors.primary}`
+        `red`
       );
     }
+
+    if(numbersGame.length > maxNumber) displayAlert(
+      `You select all the numbers to complete your bet`,
+      "Error: ",
+      `red`
+    );
 
     dispatch(
       cartActions.receiveGame({ numbersGame, price, type, color, gameId })

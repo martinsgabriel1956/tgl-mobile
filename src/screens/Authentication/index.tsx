@@ -77,6 +77,8 @@ export function Authentication() {
   }
 
   function handleAuthentication() {
+    const isLogged = email || password;
+
     api
       .post("/login", {
         email,
@@ -95,11 +97,15 @@ export function Authentication() {
       })
       .catch(async (err) => {
         setIsLoading(false);
-        displayAlert(
-          "Email or password are wrong",
-          "Hey!!",
-          `${colors.primary}`
-        );
+        if(!isLogged) {
+          displayAlert("Please fill all the fields", "Hey", "red");
+        } else {
+          displayAlert(
+            "Email or password are wrong",
+            "Hey!!",
+            `red`
+          );
+        }
         await AsyncStorage.clear();
       });
   }

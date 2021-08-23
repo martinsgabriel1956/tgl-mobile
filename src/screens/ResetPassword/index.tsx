@@ -29,9 +29,6 @@ export function ResetPassword() {
 
 
   function handleResetPassword() {
-    if (!email)
-      displayAlert("Please type a valid email", "Hey!!", `${colors.primary}`);
-
       api
       .post("/forgot_password", {
         email,
@@ -39,8 +36,14 @@ export function ResetPassword() {
       .then(() =>
         displayAlert("We have sent you an email with instructions", "Hey!!", `${colors.primary}`)
       )
-      .catch(() =>
-        displayAlert("Please type a valid email!", "Hey!!", `red`)
+      .catch(() => {
+        if(email) {
+          displayAlert("Please type a valid email", "Hey!!", `red`);
+        } else {
+          displayAlert("Please fill the email field!", "Hey!!", `red`)
+        }
+
+      }
       );
   }
 
