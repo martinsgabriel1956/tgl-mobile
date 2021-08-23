@@ -19,6 +19,32 @@ import { Modal } from "../../components/UI/Modal";
 
 import { Container, TextBy, ForgetPasswordText } from "./styles";
 
+const UpAnimation = {
+  0: {
+    bottom: -400,
+  },
+  0.5: {
+    bottom: 150,
+  },
+  0.6: {},
+  0.7: {},
+  0.75: {
+    bottom: 750,
+  },
+  1: {
+    bottom: 2000,
+  },
+};
+
+const handleOpacity = {
+  0: {
+    opacity: 0.3,
+  },
+  1: {
+    opacity: 1,
+  },
+};
+
 export function Authentication() {
   const navigation = useNavigation();
 
@@ -35,39 +61,13 @@ export function Authentication() {
     setShowAlert(false);
   }
 
-  const UpAnimation = {
-    0: {
-      bottom: -400,
-    },
-    0.5: {
-      bottom: 150,
-    },
-    0.6: {},
-    0.7: {},
-    0.75: {
-      bottom: 750,
-    },
-    1: {
-      bottom: 2000,
-    },
-  };
-
-  const handleOpacity = {
-    0: {
-      opacity: 0.3,
-    },
-    1: {
-      opacity: 1,
-    },
-  };
-
   function displayAlert(message: string, title: string, color: string) {
     setModalTitle(title);
     setModalColor(color);
     setmessage(message);
     setShowAlert(true);
   }
-
+  
   async function isLogin() {
     const user = await AsyncStorage.getItem("token");
 

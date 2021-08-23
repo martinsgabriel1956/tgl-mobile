@@ -35,8 +35,8 @@ export function Bet({
   inHomePage,
 }: BetProps) {
   return (
-    <Container>
-      <BetBar color={color}></BetBar>
+    <Container inHomePage={inHomePage}>
+      <BetBar color={color} inHomePage={inHomePage}></BetBar>
       <View>
         <Numbers>{numbers}</Numbers>
         <BetInfo>

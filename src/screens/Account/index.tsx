@@ -145,7 +145,7 @@ export function Account() {
                 onPress={handleCancelEdit}
                 style={{
                   backgroundColor: "red",
-                  marginRight: 30
+                  marginRight: 22
                 }}
               >
                 <AntDesign name="close" size={32} color="white" />

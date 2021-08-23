@@ -26,7 +26,7 @@ export function AccountInputPassword (props: TextInputProps) {
         onChangeText={props.onChangeText}
       />
       <RectButton>
-        <Ionicons name="eye-outline" size={32}  onPress={() => {
+        <Ionicons name="eye-outline" size={28}  onPress={() => {
           setIsVisible(prev => !prev) 
         }} color={!isVisible ? colors.primary : colors.border} />
       </RectButton>

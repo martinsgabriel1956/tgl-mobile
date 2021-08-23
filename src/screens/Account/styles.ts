@@ -13,7 +13,7 @@ export const Container = styled(KeyboardAvoidingView)`
 export const Avatar = styled.Image`
   height: 100px;
   width: 100px;
-  margin-left: 30px;
+  margin-left: 32px;
   border-width: 4px;
   border-color: ${colors.primary};
   border-radius: 50px;
@@ -37,7 +37,7 @@ export const EditIconContainer = styled(RectButton)`
 `;
 
 export const NameText = styled.Text`
-  margin-left: 30px;
+  margin-left: 36px;
   margin-top: 30px;
   font-size: 30px;
   font-weight: bold;
@@ -46,7 +46,7 @@ export const NameText = styled.Text`
 
 export const InfoContainer = styled.View`
   margin-top: 20px;
-  margin-left: 30px;
+  margin-left: 36px;
   margin-bottom: 40px;
 `;
 

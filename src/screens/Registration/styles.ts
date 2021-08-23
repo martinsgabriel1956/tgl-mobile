@@ -9,6 +9,6 @@ export const Container = styled.View`
 `;
 
 export const TextBy = styled.Text`
-  top: 100px;
+  top: 82px;
   color: ${colors.text};
 `;

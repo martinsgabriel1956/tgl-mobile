@@ -40,7 +40,7 @@ export function ResetPassword() {
         displayAlert("We have sent you an email with instructions", "Hey!!", `${colors.primary}`)
       )
       .catch(() =>
-        displayAlert("Please type a valid email!", "Hey!!", `${colors.primary}`)
+        displayAlert("Please type a valid email!", "Hey!!", `red`)
       );
   }
 

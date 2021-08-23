@@ -11,14 +11,14 @@ export const Container = styled.View`
 export const BetBar = styled.View`
   width: 6px;
   height: 96px;
-  margin-left: -6px;
+  margin-left: ${props => props.inHomePage ? '-10' : '-6'}px;
   border-radius: 4px;
   background-color: ${(props) => props.color};
 `;
 
 export const Numbers = styled.Text`
   margin-left: 16px;
-  margin-right: 16px;
+  margin-right: 12px;
   font-size: 16px;
   color: ${colors.title};
   font-weight: bold;

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { RectButton } from "react-native-gesture-handler";
-import Toast from "react-native-toast-message";
 
 import { AuthText } from "../../components/UI/AuthText";
 import { BackButton } from "../../components/UI/Button/BackButton";
@@ -56,8 +55,10 @@ export function Registration() {
           navigation.navigate("Authentication");
         }, 2000);
       })
-      .catch((err) =>
-        displayAlert("Email already exists!!", "Hey", `${colors.primary}`)
+      .catch((err) => {
+        if(!isInvalid) displayAlert("Email already exists!!", "Hey", `${colors.primary}`);
+      }
+        
       );
   }
 

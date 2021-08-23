@@ -11,7 +11,7 @@ export const Container = styled(Animatable.View)`
 `;
 
 export const TextBy = styled.Text`
-  top: 100px;
+  top: 90px;
   color: ${colors.text};
 `;
 
